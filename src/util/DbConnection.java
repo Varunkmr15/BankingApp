@@ -8,6 +8,7 @@ public class DbConnection {
     private static DbConnection instance;
     private Connection conn;
 
+    //Singleton Pattern
     private DbConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/bankapp?useSSL=false&serverTimezone=UTC";
         String user = "root";
