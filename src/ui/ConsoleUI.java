@@ -14,7 +14,7 @@ import model.User;
 public class ConsoleUI {
     private Scanner sc = new Scanner(System.in);
 
-    private void userMenu(User u) throws Exception {
+    public void userMenu(User u) throws Exception {
         while (true) {
             System.out.println("\n=== User Menu ===");
             System.out.println("1. View Profile\n2. Create Account\n3. Deposit\n4. Withdraw\n5. Transfer\n6. Check Balance\n7. Transaction History\n8. Logout");
