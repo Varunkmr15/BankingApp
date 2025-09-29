@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountDao {
+
     public static int createAccount(int userId, String accountNumber) throws SQLException {
         String sql = "INSERT INTO accounts (user_id, account_number, balance) VALUES (?, ?, 0)";
-        try (Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection c = DbConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, userId);
             ps.setString(2, accountNumber);
             ps.executeUpdate();
@@ -24,7 +26,8 @@ public class AccountDao {
 
     public static Account findByAccountNumber(String accNum) throws SQLException {
         String sql = "SELECT id, user_id, account_number, balance FROM accounts WHERE account_number = ?";
-        try (Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection c = DbConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, accNum);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -42,7 +45,8 @@ public class AccountDao {
 
     public static boolean updateBalance(int accountId, BigDecimal newBalance) throws SQLException {
         String sql = "UPDATE accounts SET balance = ? WHERE id = ?";
-        try (Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection c = DbConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setBigDecimal(1, newBalance);
             ps.setInt(2, accountId);
             return ps.executeUpdate() == 1;
@@ -52,7 +56,8 @@ public class AccountDao {
     public static List<Account> listAccountsByUser(int userId) throws SQLException {
         String sql = "SELECT id, user_id, account_number, balance FROM accounts WHERE user_id = ?";
         List<Account> res = new ArrayList<>();
-        try (Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection c = DbConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

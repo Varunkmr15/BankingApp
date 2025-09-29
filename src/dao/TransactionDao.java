@@ -1,6 +1,5 @@
 package dao;
 
-
 import model.TransactionRecord;
 import util.DbConnection;
 
@@ -8,12 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class TransactionDao {
+
     public static int createTransaction(int accountId, String type, BigDecimal amount, String remarks, String relatedAccount) throws SQLException {
         String sql = "INSERT INTO transactions (account_id, type, amount, remarks, related_account) VALUES (?, ?, ?, ?, ?)";
-        try (Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection c = DbConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, accountId);
             ps.setString(2, type);
             ps.setBigDecimal(3, amount);
@@ -30,7 +30,8 @@ public class TransactionDao {
     public static List<TransactionRecord> getTransactionsForAccount(int accountId) throws SQLException {
         String sql = "SELECT id, account_id, type, amount, timestamp, remarks, related_account FROM transactions WHERE account_id = ? ORDER BY timestamp DESC";
         List<TransactionRecord> res = new ArrayList<>();
-        try (Connection c = DbConnection.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection c = DbConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, accountId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
